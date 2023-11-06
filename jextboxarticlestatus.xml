@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="content" method="upgrade">
+<name>Content - JExtBOX Article Status</name>
+<author>Galaa</author>
+<creationDate>2012-10-21</creationDate>
+<copyright>Copyright (C) 2012-2023 Galaa</copyright>
+<license>GNU/GPL License - https://www.gnu.org/licenses/gpl.html</license>
+<authorUrl>www.jextbox.com</authorUrl>
+<version>5.0.0</version>
+<description><![CDATA[<p>This plugin displays badges indicating an article's status (New, Old, Edited, Featured, Popular, and Most Hit) above it. The plugin not only provides built-in badges but also allows your custom design for badges created by using HTML elements and inline CSS.</p>]]></description>
+<files>
+	<filename plugin="jextboxarticlestatus">jextboxarticlestatus.php</filename>
+	<filename>index.html</filename>
+	<folder>images</folder>
+</files>
+<languages folder="language">
+	<language tag="en-GB">en-GB/en-GB.plg_content_jextboxarticlestatus.ini</language>
+	<language tag="en-GB">en-GB/en-GB.plg_content_jextboxarticlestatus.sys.ini</language>
+</languages>
+<updateservers>
+	<server type="extension" priority="1" name="JExtBOX Article Status - Updates">http://jextbox.com/update/jextboxarticlestatus.xml</server>
+</updateservers>
+<config>
+	<fields name="params">
+		<fieldset name="article-parameters" label="JEXTBOX_ARTICLE_STATUS_TAB_ARTICLE_SELECTION" description="JEXTBOX_ARTICLE_STATUS_TAB_ARTICLE_SELECTION_DESC">
+			<field name="categories" type="category" extension="com_content" multiple="true" size="10" default="" label="JEXTBOX_ARTICLE_STATUS_CATEGORIES" />
+			<field name="categories_selection_type" type="list" default="exclude" label="JEXTBOX_ARTICLE_STATUS_SELECTED_CATEGORIES" >
+				<option value="exclude">JEXTBOX_ARTICLE_STATUS_OPTION_EXCLUDE</option>
+				<option value="include">JEXTBOX_ARTICLE_STATUS_OPTION_INCLUDE</option>
+			</field>
+			<field name="articles" type="text" default="" size="30" label="JEXTBOX_ARTICLE_STATUS_ARTICLES" description="JEXTBOX_ARTICLE_STATUS_ARTICLES_DSC" />
+			<field name="articles_selection_type" type="list" default="exclude" label="JEXTBOX_ARTICLE_STATUS_SELECTED_ARTICLES" >
+				<option value="exclude">JEXTBOX_ARTICLE_STATUS_OPTION_EXCLUDE</option>
+				<option value="include">JEXTBOX_ARTICLE_STATUS_OPTION_INCLUDE</option>
+			</field>
+		</fieldset>
+		<fieldset name="badge-parameters" label="JEXTBOX_ARTICLE_STATUS_TAB_BADGES">
+			<field name="badge_style" type="list" default="default" label="JEXTBOX_ARTICLE_STATUS_BADGE_STYLE" >
+				<option value="legacy">JEXTBOX_ARTICLE_STATUS_OPTION_LEGACY</option>
+				<option value="default">JEXTBOX_ARTICLE_STATUS_OPTION_DEFAULT</option>
+				<option value="custom">JEXTBOX_ARTICLE_STATUS_OPTION_CUSTOM</option>
+			</field>
+			<field type="note" label="JEXTBOX_ARTICLE_STATUS_SPACER_IDENTIFY_NEW_OR_EDITED" />
+			<field name="indicate_new" type="radio" class="btn-group btn-group-yesno" default="1" label="JEXTBOX_ARTICLE_STATUS_IDENTIFY_NEW" >
+				<option value="1">JEXTBOX_ARTICLE_STATUS_OPTION_YES</option>
+				<option value="0">JEXTBOX_ARTICLE_STATUS_OPTION_NO</option>
+			</field>
+			<field name="badge_new_custom" type="text" filter="raw" default="New" showon="badge_style:custom[AND]indicate_new:1" label="JEXTBOX_ARTICLE_STATUS_CUSTOM_BADGE" />
+			<field name="indicate_modified" type="radio" class="btn-group btn-group-yesno" default="1" label="JEXTBOX_ARTICLE_STATUS_IDENTIFY_EDITED" >
+				<option value="1">JEXTBOX_ARTICLE_STATUS_OPTION_YES</option>
+				<option value="0">JEXTBOX_ARTICLE_STATUS_OPTION_NO</option>
+			</field>
+			<field name="badge_modified_custom" type="text" filter="raw" default="Edited" showon="badge_style:custom[AND]indicate_modified:1" label="JEXTBOX_ARTICLE_STATUS_CUSTOM_BADGE" />
+			<field name="days" type="number" min="1" step="1" default="7" filter="uint" showon="indicate_new:1[OR]indicate_modified:1" label="JEXTBOX_ARTICLE_STATUS_DAYS" />
+			<field type="note" label="JEXTBOX_ARTICLE_STATUS_SPACER_IDENTIFY_OLD" />
+			<field name="indicate_old" type="radio" class="btn-group btn-group-yesno" default="1" label="JEXTBOX_ARTICLE_STATUS_IDENTIFY_OLD" >
+				<option value="1">JEXTBOX_ARTICLE_STATUS_OPTION_YES</option>
+				<option value="0">JEXTBOX_ARTICLE_STATUS_OPTION_NO</option>
+			</field>
+			<field name="badge_old_custom" type="text" filter="raw" default="Old" showon="badge_style:custom[AND]indicate_old:1" label="JEXTBOX_ARTICLE_STATUS_CUSTOM_BADGE" />
+			<field name="days_old" type="number" min="1" step="1" default="90" filter="uint" showon="indicate_old:1" label="JEXTBOX_ARTICLE_STATUS_DAYS_OLD" />
+			<field type="note" label="JEXTBOX_ARTICLE_STATUS_SPACER_IDENTIFY_FEATURED" />
+			<field name="indicate_featured" type="radio" class="btn-group btn-group-yesno" default="1" label="JEXTBOX_ARTICLE_STATUS_IDENTIFY_FEATURED" >
+				<option value="1">JEXTBOX_ARTICLE_STATUS_OPTION_YES</option>
+				<option value="0">JEXTBOX_ARTICLE_STATUS_OPTION_NO</option>
+			</field>
+			<field name="badge_featured_custom" type="text" filter="raw" default="Featured" showon="badge_style:custom" label="JEXTBOX_ARTICLE_STATUS_CUSTOM_BADGE" />
+			<field type="note" label="JEXTBOX_ARTICLE_STATUS_SPACER_IDENTIFY_POPULAR" />
+			<field name="indicate_popular" type="radio" class="btn-group btn-group-yesno" default="1" label="JEXTBOX_ARTICLE_STATUS_IDENTIFY_POPULAR" >
+				<option value="1">JEXTBOX_ARTICLE_STATUS_OPTION_YES</option>
+				<option value="0">JEXTBOX_ARTICLE_STATUS_OPTION_NO</option>
+			</field>
+			<field name="badge_popular_custom" type="text" filter="raw" default="Popular" showon="badge_style:custom[AND]indicate_popular:1" label="JEXTBOX_ARTICLE_STATUS_CUSTOM_BADGE" />
+			<field name="badge_popular_limit" type="list" default="0.85" showon="indicate_popular:1" label="JEXTBOX_ARTICLE_STATUS_BADGE_HIT_LIMIT" >
+				<option value="0.9">JEXTBOX_ARTICLE_STATUS_OPTION_90</option>
+				<option value="0.85">JEXTBOX_ARTICLE_STATUS_OPTION_85</option>
+				<option value="0.75">JEXTBOX_ARTICLE_STATUS_OPTION_75</option>
+				<option value="0.6">JEXTBOX_ARTICLE_STATUS_OPTION_60</option>
+				<option value="0.5">JEXTBOX_ARTICLE_STATUS_OPTION_50</option>
+			</field>
+			<field type="note" label="JEXTBOX_ARTICLE_STATUS_SPACER_IDENTIFY_HIT" />
+			<field name="indicate_hit" type="radio" class="btn-group btn-group-yesno" default="1" label="JEXTBOX_ARTICLE_STATUS_IDENTIFY_MOST_HIT" >
+				<option value="1">JEXTBOX_ARTICLE_STATUS_OPTION_YES</option>
+				<option value="0">JEXTBOX_ARTICLE_STATUS_OPTION_NO</option>
+			</field>
+			<field name="badge_hit_custom" type="text" filter="raw" default="Most Hit" showon="badge_style:custom[AND]indicate_hit:1" label="JEXTBOX_ARTICLE_STATUS_CUSTOM_BADGE" />
+			<field name="badge_hit_limit" type="list" default="0.95" showon="indicate_hit:1" label="JEXTBOX_ARTICLE_STATUS_BADGE_HIT_LIMIT" >
+				<option value="0.95">JEXTBOX_ARTICLE_STATUS_OPTION_95</option>
+				<option value="0.9">JEXTBOX_ARTICLE_STATUS_OPTION_90</option>
+				<option value="0.85">JEXTBOX_ARTICLE_STATUS_OPTION_85</option>
+				<option value="0.75">JEXTBOX_ARTICLE_STATUS_OPTION_75</option>
+				<option value="0.6">JEXTBOX_ARTICLE_STATUS_OPTION_60</option>
+			</field>
+		</fieldset>
+		<fieldset name="visibility-parameters" label="JEXTBOX_ARTICLE_STATUS_TAB_VISIBILITY">
+			<field name="show_in_full_view" type="radio" class="btn-group btn-group-yesno" default="1" filter="uint" label="JEXTBOX_ARTICLE_STATUS_SHOW_IN_FULL_VIEW" >
+				<option value="1">JEXTBOX_ARTICLE_STATUS_OPTION_YES</option>
+ 				<option value="0">JEXTBOX_ARTICLE_STATUS_OPTION_NO</option>
+ 			</field>
+			<field name="show_in_featured_view" type="radio" class="btn-group btn-group-yesno" default="1" filter="uint" label="JEXTBOX_ARTICLE_STATUS_SHOW_IN_FEATURED_VIEW" >
+				<option value="1">JEXTBOX_ARTICLE_STATUS_OPTION_YES</option>
+				<option value="0">JEXTBOX_ARTICLE_STATUS_OPTION_NO</option>
+			</field>
+			<field name="show_in_category_view" type="radio" class="btn-group btn-group-yesno" default="1" filter="uint" label="JEXTBOX_ARTICLE_STATUS_SHOW_IN_CATEGORY_VIEW" >
+				<option value="1">JEXTBOX_ARTICLE_STATUS_OPTION_YES</option>
+				<option value="0">JEXTBOX_ARTICLE_STATUS_OPTION_NO</option>
+			</field>
+		</fieldset>
+		<fieldset name="custom-css" label="JEXTBOX_ARTICLE_STATUS_TAB_CUSTOM_CSS_PARAMATERS">
+			<field name="wrap" type="radio" class="btn-group" default="0" label="JEXTBOX_ARTICLE_STATUS_WRAP_BADGES" >
+				<option value="1">JEXTBOX_ARTICLE_STATUS_OPTION_YES</option>
+				<option value="0">JEXTBOX_ARTICLE_STATUS_OPTION_NO</option>
+			</field>
+			<field name="wrapper_css_class_name" type="text" default="" hint="jextbox-article-status-container" filter="string" showon="wrap:1" label="JEXTBOX_ARTICLE_STATUS_WRAPPER_CLASS_NAME" />
+			<field name="custom_css" type="textarea" rows="5" filter="raw" default="" hint=".jextbox-article-status-container {  }; .jextbox-article-status-container span {  }" showon="wrap:1" label="JEXTBOX_ARTICLE_STATUS_CUSTOM_CSS" />
+		</fieldset>
+	</fields>
+</config>
+</extension>
